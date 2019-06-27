@@ -2,7 +2,6 @@ using Printf: @printf
 using RDatasets: dataset
 using StatsBase: sample
 using Statistics: mean, var, std
-using DataFrames: axes
 
 
 function describe_population(ω)
