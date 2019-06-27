@@ -2,12 +2,12 @@ using Printf: @printf
 using RDatasets: dataset
 using StatsBase: sample
 using Statistics: mean, var, std
-using DataFrames: axes, describe
+using DataFrames: axes
 
 
 function describe_population(ω)
   μ = mean(ω)
-  σ² = var(ω; corrected=false)
+  σ² = var(ω; corrected = false)
   @printf("(μ, σ²) = (%.2f, %.2f)\n", μ, σ²)
 end
 
@@ -24,8 +24,8 @@ function describe_sample(ω, xs)
 end
 
 
-function samples(ω, n_samples; sample_size=10)
-  [sample(ω, sample_size, replace=false) for i in 1:n_samples]
+function samples(ω, n_samples; sample_size = 10)
+  [sample(ω, sample_size, replace = false) for i in 1:n_samples]
 end
 
 
