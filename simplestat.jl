@@ -20,7 +20,7 @@ function describe_sample(ω, xs)
   s = std(xs)
   se = s / √(n)
   t = (x̄ - μ) / se
-  @printf("(n, x̄, s², 2SD, 2SE, t) = (%2d, %.2f, %.2f, %.2f, %.2f, %.2f)\n", n, x̄, s², 2s, 2se, t)
+  @printf("(n, x̄, s², 2SD, 2SE, x̄ - 2SE, x̄ + 2SE) = (%2d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n", n, x̄, s², 2s, 2se, x̄ - 2se, x̄ + 2se)
 end
 
 
