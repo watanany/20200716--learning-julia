@@ -5,35 +5,36 @@ using Statistics: mean, var, std
 
 
 function describe_population(ω)
-  μ = mean(ω)
-  σ² = var(ω; corrected = false)
-  @printf("(μ, σ²) = (%.2f, %.2f)\n", μ, σ²)
+    μ = mean(ω)
+    σ² = var(ω; corrected = false)
+    @printf("(μ, σ²) = (%.2f, %.2f)\n", μ, σ²)
 end
 
 
 function describe_sample(ω, xs)
-  μ = mean(ω)
-  n = length(xs)
-  x̄ = mean(xs)
-  s² = var(xs)
-  s = std(xs)
-  se = s / √(n)
-  t = (x̄ - μ) / se
-  @printf("(n, x̄, s², 2SD, 2SE, x̄ - 2SE, x̄ + 2SE) = (%2d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n", n, x̄, s², 2s, 2se, x̄ - 2se, x̄ + 2se)
+    μ = mean(ω)
+    n = length(xs)
+    x̄ = mean(xs)
+    s² = var(xs)
+    s = std(xs)
+    se = s / √(n)
+    t = (x̄ - μ) / se
+    @printf("(n, x̄, s², 2SD, 2SE, x̄ - 2SE, x̄ + 2SE) = (%2d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n", n, x̄, s², 2s, 2se, x̄ - 2se, x̄ + 2se)
 end
 
 
 function samples(ω, n_samples; sample_size = 10)
-  [sample(ω, sample_size, replace = false) for i in 1:n_samples]
+    [sample(ω, sample_size, replace = false) for i in 1:n_samples]
 end
 
 
-function tstat(xs, μ)
-  n = length(xs)
-  x̄ = mean(xs)
-  s = std(xs)
-  se = s / √(n)
-  (x̄ - μ) / se
+function tstat(xs)
+    n = length(xs)
+    x̄ = mean(xs)
+    s = std(xs)
+    se = s / √(n)
+    μ -> (x̄ - μ) / se
+end
 end
 
 
