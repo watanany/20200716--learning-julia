@@ -2,6 +2,8 @@ using Printf: @printf
 using RDatasets: dataset
 using StatsBase: sample
 using Statistics: mean, var, std
+using Plots: gr, plot, histogram, display
+
 
 
 function describe_population(ω)
@@ -35,26 +37,43 @@ function tstat(xs)
     se = s / √(n)
     μ -> (x̄ - μ) / se
 end
+
+
+function chisqstat(xs)
+    x̄ = mean(xs)
+    σ -> sum([((x - x̄) / σ)^2 for x in xs])
 end
 
 
 function main()
-  iris = dataset("datasets", "iris")
+    iris = dataset("datasets", "iris")
 
-  setosa = iris[iris.Species .== "setosa", :]
-  virginica = iris[iris.Species .== "virginica", :]
-  versicolor = iris[iris.Species .== "versicolor", :]
+    setosa = iris[iris.Species .== "setosa", :]
+    virginica = iris[iris.Species .== "virginica", :]
+    versicolor = iris[iris.Species .== "versicolor", :]
 
-  ω = virginica[:SepalLength]
-  describe_population(ω)
+    ω = iris[:SepalLength]
+    describe_population(ω)
 
-  for xs in samples(ω, 30)
-    describe_sample(ω, xs)
-  end
+    for xs in samples(ω, 30)
+        describe_sample(ω, xs)
+    end
 
-  μ = mean(ω)
-  ts = [tstat(xs, μ) for xs in samples(ω, 300)]
-  @printf("(mean(ts), std(ts)) = (%.2f, %.2f)\n", mean(ts), std(ts))
+    # ----------------------------------------------------------------------
+
+    μ = mean(ω)
+    ts = [tstat(xs)(μ) for xs in samples(ω, 1000)]
+    #@printf("(mean(ts), std(ts)) = (%.2f, %.2f)\n", mean(ts), std(ts))
+
+    σ = std(ω; corrected = false)
+    χ²s = [chisqstat(xs)(σ) for xs in samples(ω, 1000)]
+    #@printf("(mean(χ²s), std(χ²s)) = (%.2f, %.2f)\n", mean(χ²s), std(χ²s))
+
+    plts = [
+        histogram(ts),
+        histogram(χ²s),
+    ]
+    plot(plts..., layout = (1, 2)) |> display
 end
 
 
