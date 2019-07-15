@@ -25,7 +25,7 @@ function describe_sample(ω, xs)
 end
 
 
-function samples(ω, n_samples; sample_size = 10)
+function samples(ω, n_samples; sample_size = 100)
     [sample(ω, sample_size, replace = false) for i in 1:n_samples]
 end
 
@@ -62,11 +62,11 @@ function main()
     # ----------------------------------------------------------------------
 
     μ = mean(ω)
-    ts = [tstat(xs)(μ) for xs in samples(ω, 1000)]
+    ts = [tstat(xs)(μ) for xs in samples(ω, 1000; sample_size = 10)]
     #@printf("(mean(ts), std(ts)) = (%.2f, %.2f)\n", mean(ts), std(ts))
 
     σ = std(ω; corrected = false)
-    χ²s = [chisqstat(xs)(σ) for xs in samples(ω, 1000)]
+    χ²s = [chisqstat(xs)(σ) for xs in samples(ω, 1000, sample_size = 10)]
     #@printf("(mean(χ²s), std(χ²s)) = (%.2f, %.2f)\n", mean(χ²s), std(χ²s))
 
     plts = [
