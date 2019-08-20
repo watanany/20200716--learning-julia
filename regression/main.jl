@@ -24,7 +24,11 @@ ê = Y - Ŷ
 s² = sum(ê.^2 ./ (n - 2))
 s = sqrt(s²)
 η² = 1 - sum(ê.^2) / sum((Y .- Y̅).^2) # = sum((Ŷ - Y̅).^2) / sum((Y - Y̅).^2)
+SE_β̂₁ = s * sqrt(sum(X.^2) / (n * sum((X .- X̅).^2)))
+SE_β̂₂ = s / sqrt(sum((X .- X̅).^2))
 
 @printf("標本回帰方程式[sample regression equation]\tŶ = %.2f + %.2fX\n", β̂₁, β̂₂)
 @printf("推定値の標準誤差[standard error of estimates]\ts.e. = %.2f\n", s)
+@printf("β̂₁の標準誤差[standard error of β̂₁]\ts.e.(β̂₁) = %.2f\n", SE_β̂₁)  # あまり使わないらしい
+@printf("β̂₂の標準誤差[standard error of β̂₂]\ts.e.(β̂₂) = %.2f\n", SE_β̂₂)
 @printf("決定係数[coefficient of determination]\tη² = %.2f\n", η²)
